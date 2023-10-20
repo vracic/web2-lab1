@@ -1,11 +1,8 @@
 {
-    "compilerOptions": {             
-        "esModuleInterop": true,
+    "compilerOptions": {        
         "outDir": "./dist",
-        "rootDir": "./src",        
-        "declaration": true,
-        "strictNullChecks": true,
-        "noImplicitAny": true,
-        "noEmitOnError": true
+        "rootDir": "./src",    
+        "noEmitOnError": true,      
+        "resolveJsonModule": true        
     }
 }
