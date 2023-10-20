@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc && npm run copy-files",
+    "build": "npm install && tsc && npm run copy-files",
     "copy-files": "robocopy /mir /NFL /NDL /NJH /NJS /nc /ns /np src/views/ dist/views",
     "start": "node dist/index.js"
   },
