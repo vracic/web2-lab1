@@ -6,7 +6,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npm run clean && tsc && npm run copy-files",
-    "clean": "if exist dist rmdir /s /q dist",
     "copy-files": "robocopy /mir /NFL /NDL /NJH /NJS /nc /ns /np src/views/ dist/views",
     "start": "node dist/index.js"
   },
