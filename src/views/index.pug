@@ -1,0 +1,22 @@
+html 
+    head 
+        title web2-lab1 
+    body
+        if username
+            h1 Welcome #{username}
+        ul 
+            li: a(href='/', title='Home') Home
+            if username
+                li: a(href='/define') New competition             
+                li: form(action="/logout", method="get")
+                    input(type="submit", value="Logout " + username)
+            else 
+                li: a(href='/login', title='login') Login
+            br
+            if username 
+                if url
+                    p Competition link: 
+                        a(href=url) #{url}
+                    br
+
+        

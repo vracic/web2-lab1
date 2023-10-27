@@ -1,0 +1,16 @@
+html 
+    head 
+        title web2-lab1/define
+    body
+        h1 Welcome #{username}
+        ul 
+            li: a(href='/', title='Home') Home
+        if errMsg 
+            div: p(style={background: '#FFCCCB'}) #{errMsg}          
+        form(action="/newComp", method="post")
+            label(for='players') Players:
+            input(type="text", name="players", placeholder="player1,player2,player3,player4" required)
+            label(for='scoring') Scoring:
+            input(type='text', value='3/0/1', name='scoring', required)
+            input(type="submit", value="submit")
+        

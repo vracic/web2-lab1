@@ -4,6 +4,6 @@
         "rootDir": "./src",    
         "noEmitOnError": true,      
         "resolveJsonModule": true,
-        "esModuleInterop": true        
+        "esModuleInterop": true
     }
 }

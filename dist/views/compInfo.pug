@@ -1,0 +1,62 @@
+style.
+    td {
+      text-align: center;
+    }
+
+if username
+  a(href='/', title='Home') Home
+  p Competition link: #{url}
+<br>
+
+table(style='width:100%', border='1')
+  <caption>Table</caption>
+  tr
+    th Player
+    th Points
+
+  each player in players
+    tr 
+      td #{player.username}
+      td #{player.points}
+
+<br>
+<br>
+<br>
+
+if username
+  table(style='width:100%', border='1')
+    <caption>Games</caption>
+    tr
+      th Round
+      th Player1 
+      th Player2 
+      th Result
+
+    each game in games
+      form(action="/updateResult/" + game.game_id, method="post")
+        tr 
+          td(style='display:none;')
+            input(type="text", name="game_id", value=game.game_id)
+          td #{game.round}
+          td #{game.p1}
+          td #{game.p2}
+          td 
+            input(type="text", name="score", value=game.score)
+          td 
+            input(type="submit", value="submit")
+else
+  table(style='width:100%', border='1')
+    <caption>Games</caption>
+    tr
+      th Round
+      th Player1 
+      th Player2 
+      th Result
+
+    each game in games
+      tr 
+        td #{game.round}
+        td #{game.p1}
+        td #{game.p2}
+        td #{game.score}
+
