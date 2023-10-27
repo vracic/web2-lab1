@@ -89,7 +89,7 @@ app.post('/newComp', requiresAuth(), (req, res) => {
   else{
     roundRobin(players, score, username).then(() => {
       getLastComp().then((comp_id) => {
-        var url: string = 'https://localhost:4080/comp/' + comp_id;
+        var url: string = 'https://web2-lab1-xkpt.onrender.com/comp/' + comp_id;
         res.render('index', {username, url});
       })
     });
@@ -103,7 +103,7 @@ app.get('/comp/:id', (req, res) => {
       if (req.oidc.isAuthenticated()) {
         username = req.oidc.user?.name ?? req.oidc.user?.sub;
       }
-      var url: string = 'https://localhost:4080/comp/' + req.params['id'];
+      var url: string = 'https://web2-lab1-xkpt.onrender.com/comp/' + req.params['id'];
       res.render('compInfo', {players, games, username, url});
     });
   });
