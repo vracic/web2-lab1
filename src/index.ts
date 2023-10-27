@@ -121,7 +121,7 @@ app.post('/updateResult/:id', requiresAuth(), (req, res) => {
       var draw: number = comp.scoring[2];
       var score_p1_new = parseInt(score.split('-')[0]);
       var score_p2_new = parseInt(score.split('-')[1]);
-      if ((score_p1_new !== 0 && Number.isNaN(score_p1_new)) || (score_p2_new !== 0 && Number.isNaN(score_p2_new)) || score === game.score) {   // invalid input or same as old
+      if (score !== "" && (Number.isNaN(score_p1_new) || Number.isNaN(score_p2_new) || score === game.score)) {   // invalid input or same as old
         res.redirect(302, '/comp/' + comp_id);
       }
       else {      // podaci su valjani i treba ih pohranit u bazu
@@ -200,23 +200,8 @@ app.post('/updateResult/:id', requiresAuth(), (req, res) => {
             updatePlayerPoints(comp_id, game.player2_id, draw);
           }
         }
-          //update game score
         updateGameScore(game_id, score).then(() => res.redirect(302, '/comp/' + comp_id));
       }
     });
   });
 })
-
-//const server = app.listen(port, () => console.log(`Example app listening on port ${port}!`));
-
-// server.keepAliveTimeout = 120 * 1000;
-// server.headersTimeout = 120 * 1000;
-
-// https.createServer({
-//   key: fs.readFileSync('server.key'),
-//   cert: fs.readFileSync('server.cert')
-//   }, app)
-//   .listen(port, function () {
-//   console.log(`Server running at https://localhost:${port}/`);
-//   });
-  
