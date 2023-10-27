@@ -121,7 +121,7 @@ app.post('/updateResult/:id', requiresAuth(), (req, res) => {
       var draw: number = comp.scoring[2];
       var score_p1_new = parseInt(score.split('-')[0]);
       var score_p2_new = parseInt(score.split('-')[1]);
-      if ((Number.isNaN(score_p1_new) || Number.isNaN(score_p2_new) || score === game.score) && score !== "") {   // invalid input or same as old
+      if (Number.isNaN(score_p1_new) || Number.isNaN(score_p2_new) || score === game.score) {   // invalid input or same as old
         res.redirect(302, '/comp/' + comp_id);
       }
       else {      // podaci su valjani i treba ih pohranit u bazu
@@ -192,8 +192,8 @@ app.post('/updateResult/:id', requiresAuth(), (req, res) => {
             updatePlayerPoints(comp_id, game.player2_id, lose);
           }
           if (winner_new == "p2") {
-            updatePlayerPoints(comp_id, game.player2_id, win);
             updatePlayerPoints(comp_id, game.player1_id, lose);
+            updatePlayerPoints(comp_id, game.player2_id, win);
           }
           if (winner_new == "x" && score !== "") {
             updatePlayerPoints(comp_id, game.player1_id, draw);
