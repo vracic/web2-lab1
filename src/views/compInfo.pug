@@ -30,7 +30,7 @@ if username
       th Round
       th Player1 
       th Player2 
-      th Result
+      th Result (x-y)
 
     each game in games
       form(action="/updateResult/" + game.game_id, method="post")

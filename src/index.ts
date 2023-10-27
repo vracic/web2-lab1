@@ -121,7 +121,7 @@ app.post('/updateResult/:id', requiresAuth(), (req, res) => {
       var draw: number = comp.scoring[2];
       var score_p1_new = parseInt(score.split('-')[0]);
       var score_p2_new = parseInt(score.split('-')[1]);
-      if ((Number.isNaN(score_p1_new) || Number.isNaN(score_p2_new) || score === game.score) && score !== "") {
+      if ((Number.isNaN(score_p1_new) || Number.isNaN(score_p2_new) || score === game.score) && score !== "") {   // invalid input or same as old
         res.redirect(302, '/comp/' + comp_id);
       }
       else {      // podaci su valjani i treba ih pohranit u bazu
@@ -131,7 +131,7 @@ app.post('/updateResult/:id', requiresAuth(), (req, res) => {
         if (score_p1_new < score_p2_new) winner_new = "p2";
         if (score_p1_new === score_p2_new) winner_new = "x";
 
-        if (game.score !== ''){
+        if (game.score !== ''){                                     // vec postoji rezultat u bazi i treba ga promijeniti
           var score_p1_old = parseInt(game.score.split('-')[0]);
           var score_p2_old = parseInt(game.score.split('-')[1]);
 
@@ -139,7 +139,7 @@ app.post('/updateResult/:id', requiresAuth(), (req, res) => {
           if (score_p1_old < score_p2_old) winner_old = "p2";
           if (score_p1_old === score_p2_old) winner_old = "x";
 
-          if (winner_new && winner_new !== winner_old) {
+          if (winner_new && (winner_new !== winner_old)) {          // unesen rezultat je valjan
             if (winner_new === "x" && winner_old === "p1") {
                     // iz 1 u x
               updatePlayerPoints(comp_id, game.player1_id, -win + draw);
@@ -150,7 +150,6 @@ app.post('/updateResult/:id', requiresAuth(), (req, res) => {
               updatePlayerPoints(comp_id, game.player1_id, -lose + draw);
               updatePlayerPoints(comp_id, game.player2_id, -win + draw);
             }
-
             if (winner_new === "p1" && winner_old === "p2") {
                     // iz 2 u 1
               updatePlayerPoints(comp_id, game.player1_id, -lose + win);
@@ -161,7 +160,6 @@ app.post('/updateResult/:id', requiresAuth(), (req, res) => {
               updatePlayerPoints(comp_id, game.player1_id, -draw + win);
               updatePlayerPoints(comp_id, game.player2_id, -draw + lose);
             }
-
             if (winner_new === "p2" && winner_old === "p1") {
                     // iz 1 u 2
               updatePlayerPoints(comp_id, game.player1_id, -win + lose);
@@ -173,7 +171,7 @@ app.post('/updateResult/:id', requiresAuth(), (req, res) => {
               updatePlayerPoints(comp_id, game.player2_id, -draw + win);
             }
           }
-          else {
+          else {                                                          // brisanje rezultata
             if (winner_old === "x") {
               updatePlayerPoints(comp_id, game.player1_id, -draw);
               updatePlayerPoints(comp_id, game.player2_id, -draw);
@@ -188,9 +186,15 @@ app.post('/updateResult/:id', requiresAuth(), (req, res) => {
             }
           }
         }
-        else {
-          if (winner_new == "p1") updatePlayerPoints(comp_id, game.player1_id, win);
-          if (winner_new == "p2") updatePlayerPoints(comp_id, game.player2_id, win);
+        else {      // ne postoji rezultat u bazi i potrebno je pohraniti uneseni
+          if (winner_new == "p1") {
+            updatePlayerPoints(comp_id, game.player1_id, win);
+            updatePlayerPoints(comp_id, game.player2_id, lose);
+          }
+          if (winner_new == "p2") {
+            updatePlayerPoints(comp_id, game.player2_id, win);
+            updatePlayerPoints(comp_id, game.player1_id, lose);
+          }
           if (winner_new == "x" && score !== "") {
             updatePlayerPoints(comp_id, game.player1_id, draw);
             updatePlayerPoints(comp_id, game.player2_id, draw);
