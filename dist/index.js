@@ -73,7 +73,9 @@ app.post('/newComp', (0, express_openid_connect_1.requiresAuth)(), function (req
     if (req.oidc.isAuthenticated()) {
         username = (_b = (_a = req.oidc.user) === null || _a === void 0 ? void 0 : _a.name) !== null && _b !== void 0 ? _b : (_c = req.oidc.user) === null || _c === void 0 ? void 0 : _c.sub;
     }
-    var players = req.body.players.split(',');
+    console.log(req.body.players);
+    var players_string = req.body.players.replace('\n', ';');
+    var players = players_string.split(';');
     var score = req.body.scoring.split('/');
     if (!players || !score || (players === null || players === void 0 ? void 0 : players.length) < 4 || (players === null || players === void 0 ? void 0 : players.length) > 8 || (score === null || score === void 0 ? void 0 : score.length) != 3) {
         var errMsg = "Uneseni podaci nisu valjani";
@@ -116,7 +118,6 @@ app.post('/updateResult/:id', (0, express_openid_connect_1.requiresAuth)(), func
                 res.redirect(302, '/comp/' + comp_id);
             }
             else { // podaci su valjani i treba ih pohranit u bazu
-                console.log("jfsdkfsk");
                 var winner_new;
                 var winner_old;
                 if (score_p1_new > score_p2_new)
@@ -195,19 +196,8 @@ app.post('/updateResult/:id', (0, express_openid_connect_1.requiresAuth)(), func
                         (0, db_1.updatePlayerPoints)(comp_id, game.player2_id, draw);
                     }
                 }
-                //update game score
                 (0, db_1.updateGameScore)(game_id, score).then(function () { return res.redirect(302, '/comp/' + comp_id); });
             }
         });
     });
 });
-//const server = app.listen(port, () => console.log(`Example app listening on port ${port}!`));
-// server.keepAliveTimeout = 120 * 1000;
-// server.headersTimeout = 120 * 1000;
-// https.createServer({
-//   key: fs.readFileSync('server.key'),
-//   cert: fs.readFileSync('server.cert')
-//   }, app)
-//   .listen(port, function () {
-//   console.log(`Server running at https://localhost:${port}/`);
-//   });
