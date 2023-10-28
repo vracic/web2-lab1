@@ -80,7 +80,9 @@ app.post('/newComp', requiresAuth(), (req, res) => {
   if (req.oidc.isAuthenticated()) {
     username = req.oidc.user?.name ?? req.oidc.user?.sub;
   }
-  let players : string[] | undefined = req.body.players.split(',');
+  var players_string = req.body.players.replace(';', ',');
+  players_string = req.body.players.replace('\n', ',');
+  let players : string[] | undefined = players_string.split(',');
   let score : number[] | undefined = req.body.scoring.split('/');
   if (!players || !score || players?.length < 4 || players?.length > 8 || score?.length != 3) {
     let errMsg = "Uneseni podaci nisu valjani";
